@@ -1,0 +1,11 @@
+Cândido Farias|13/12/1972|152874
+Pedro Malazarte|21/08/1956|159786
+João Ligeiro|16/09/1971|75396
+José Ribeiro dos Santos|23/04/1978|15975
+José Ribeiro dos Santos|12/01/1956|75313
+José Ribeiro dos Santos|12/01/1956|75313|
+Carlos Gardel|18/06/2020|15976
+Candido Farias|19/06/2020|15973
+Pedro Malazarte|20/06/2020|15973
+Pedro Boh|20/06/2020|19735
+Pedro Malazarte|20/06/2020|12345

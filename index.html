@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<title>Criação de Siter</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/style.css" />
+	</head>
+	<body>
+		<h2 class="alert alert-secondary text-center">Lista de Alunos</h2>
+		<div id="form">
+			<form name="form-aluno" id="form-aluno" method="POST">
+				<div class="input">
+					<input type="text" name="nome" id="nome"
+					pattern="^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)\s*?|(?:[A-Z][^\s]*\s*?)(?!.*[ ]$))+$"
+					required placeholder="Nome completo">
+				</div>
+				<div class="input">
+					<input type="date" name="data_nasc" id="data-nasc"
+					required placeholder="Data de Nascimento">
+				</div>
+				<div class="input">
+					<input type="text" name="matricula" id="matricula" pattern="[0-9]{5}"
+					required placeholder="Matricula">
+				</div>
+				<div class="input">
+					<input type="submit" name="enviar" value="enviar" >
+				</div>
+
+			</form>
+		</div>
+		<hr/>
+		<div id="msg" >
+		</div>
+		<div id="alunos">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nome</th><th>Data de Nascimento</th><th>Matricula</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+
+			</table>
+		</div>
+		
+		<script>
+			function listar(){
+				xhttp= new XMLHttpRequest();
+
+				xhttp.onreadystatechange=function(){
+					if(this.readyState==4 && this.status==200 ){
+						dadosJSON = JSON.parse(this.responseText);
+						
+						tbody=document.querySelector("tbody");
+						
+						dadosJSON.forEach(function(item){
+							
+							tr = document.createElement("tr");
+							nome = document.createElement("td");
+							nome.appendChild(document.createTextNode(item.nome));
+							tr.appendChild(nome);
+
+							dataNasc = document.createElement("td");
+							dataNasc.appendChild(document.createTextNode(item.dataNasc));
+							tr.appendChild(dataNasc);
+
+							matricula = document.createElement("td");
+							matricula.appendChild(document.createTextNode(item.matricula));
+							tr.appendChild(matricula);
+
+							tbody.appendChild(tr);
+
+						});
+						
+					}
+				}
+
+				xhttp.open("GET", "listar.php", true);
+				xhttp.send();
+			}
+
+			listar();
+
+			formAluno=document.querySelector("#form-aluno");
+			//console.log(formAluno);
+			formAluno.onsubmit=function(){
+				//console.log(this);
+				let nome=document.querySelector("#nome").value;
+				let dataNasc=document.querySelector("#data-nasc").value;
+				let matricula=document.querySelector("#matricula").value;
+
+				let dadosPOST="nome="+nome+"&dataNasc="+dataNasc+"&matricula="+matricula;
+				console.log(dadosPOST);
+				xhttp= new XMLHttpRequest();
+
+				xhttp.onreadystatechange=function(){
+					if(this.readyState==4 && this.status==200 ){
+						console.log(this.responseText);
+						msg = JSON.parse(this.responseText);
+						document.querySelector("#msg").innerHTML=msg.msg;
+						document.querySelector("#msg").classList.add("alert","alert-"+msg['class']);
+
+					}
+						
+				}
+				
+
+				xhttp.open("POST", "salvar.php", true);
+				xhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+				xhttp.send(dadosPOST);
+				return false;
+			}
+
+		</script>
+	</body>
+</html>
